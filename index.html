@@ -73,9 +73,9 @@
 <script>
 /* ===================================================================
  * SERIAL‑POSITION MEMORY TASK  (HTML + Vanilla JS)
- * – Study (20 audio sentences)            – no response
+ * – Study (15 audio sentences)            – no response
  * – Distractor (count high beeps)         – numeric response
- * – Test   (40 text sentences OLD/NEW)    – F=OLD  J=NEW
+ * – Test   (30 text sentences OLD/NEW)    – F=OLD  J=NEW
  * – Data sent to DataPipe → OSF           – CSV fallback download
  * =================================================================== */
 
@@ -262,14 +262,14 @@ async function blockLoop(i){
 async function runBlock(topic){
   const pool = state.stimuliPool
                 .filter(s=>s.topic===topic && s.diff===state.difficulty);
-  if(pool.length<40) throw new Error('Insufficient stimuli');
+  if(pool.length<30) throw new Error('Insufficient stimuli');
 
-  const study     = randomSample(pool,20);
-  const newFoils  = randomSample(pool.filter(s=>!study.includes(s)),20);
+  const study     = randomSample(pool,15);
+  const newFoils  = randomSample(pool.filter(s=>!study.includes(s)),15);
   const testList  = shuffle([...study,...newFoils]);
 
   /* ---- Study ---- */
-  show(`<h2>Study – ${topic}</h2><p>You will hear 20 sentences. Listen carefully.</p><p>Press SPACE to begin.</p>`);
+  show(`<h2>Study – ${topic}</h2><p>You will hear 15 sentences. Listen carefully.</p><p>Press SPACE to begin.</p>`);
   await waitSpace();
   for(let i=0;i<study.length;i++){
     show(`
@@ -290,7 +290,7 @@ async function runBlock(topic){
   /* ---- Test ---- */
   show(`
     <h2>Memory Test – ${topic}</h2>
-    <p>You will now see 40 sentences, one at a time.</p>
+    <p>You will now see 30 sentences, one at a time.</p>
     <p>Some sentences are OLD – you listened to them during the first part of the study. Others are NEW and were not played.</p>
     <p>Your task is to decide for each sentence:</p>
     <p>F = OLD</p>
